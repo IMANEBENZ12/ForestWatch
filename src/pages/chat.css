@@ -1,0 +1,124 @@
+.communityChat {
+  color: #004d00;
+  font-weight: bold;
+  border-bottom-style: solid;
+  border-bottom-color: #ccc;
+  text-decoration: solid;
+
+}
+
+.create-event-box{
+  background-color: #B0E57C;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 300%;
+  padding-left: 40px;
+}
+
+.button {
+  color: white;
+  background-color: #328636;
+  border: none;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.button:hover {
+  background-color: #004d00;
+}
+
+.event-details {
+  color:black;
+  font-size: 15px;
+  line-height: 15px;
+
+}
+
+.event-input-name {
+  font-family: Arial, sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.event-input-description {
+  font-family: Arial, sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.event-input-date{
+  font-family: Arial, sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.create-event{
+  font-size: 20px;
+}
+.upcoming-event{
+  font-size: 20px;
+}
+
+.upcoming-events-container {
+  color: black;
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 1rem; 
+}
+
+.upcoming-event-item {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid white; 
+  padding: 1rem; 
+  border-radius: 8px; 
+  background-color: white; 
+  min-width: 200px;
+  max-width: 400px; 
+}
+
+.form-group {
+  margin-bottom: 1rem; 
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-y: auto; 
+}
+
+.page-title {
+  padding: 1rem; 
+}
+
+.page-title h1 {
+  position: sticky;
+  top: 0;
+  background-color: #F9F9F9; 
+  z-index: 100;
+  padding: 1rem;
+  text-decoration: solid;
+  width: 100%;
+  text-align: left; 
+  margin: 0; 
+}
+
+.page-func {
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full viewport height */
+  margin: 0 auto; /* Center horizontally */
+  padding: 1rem; /* Add some padding */
+  box-sizing: border-box;
+}

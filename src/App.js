@@ -1,28 +1,34 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom'; // Import Link
 import Login from './Login';
 import Signup from './Signup';
-import Home from './Home'; // Import Home component
-import Dashboard from './pages/Dashboard'; // Adjust the path based on where Dashboard.js is located
-import logo from './assets/logo.png'; // Import logo image
-import { FaSearch } from 'react-icons/fa'; // Import search icon from react-icons
+import Home from './Home'; 
+import Dashboard from './pages/Dashboard'; 
+import Profile from './pages/Profile';
+import SafetyGuidance from './pages/Safety';  // Added SafetyGuidance component
+import logo from './assets/logo.png'; 
+import ColorMatchingGame from './pages/ColorMatchingGame';
+import EmergencyContact from './pages/emergency';  // Added SafetyGuidance component
+import CommunityChat from './pages/chat';  // Added SafetyGuidance component
+
+const Header = () => {
+    const location = useLocation();
+
+    return (
+        <header className="app-header">
+            <Link to="/dashboard"> {/* Wrap logo with Link to navigate to Dashboard */}
+                <img src={logo} alt="Logo" className="logo" />
+            </Link>
+        </header>
+    );
+};
 
 const App = () => {
     return (
         <Router>
             <div className="app">
-                {/* Logo positioned in the top-left corner */}
-                <img src={logo} alt="Logo" className="logo" />
-
-                {/* Search Bar with icon on the right */}
-                <div className="search-container">
-                    <input
-                        type="text"
-                        className="search-bar"
-                        placeholder="Search here..."
-                    />
-                    <FaSearch className="search-icon" />
-                </div>
+                {/* Render the header */}
+                <Header />
 
                 <Routes>
                     <Route path="/login" element={<Login />} />
@@ -30,7 +36,13 @@ const App = () => {
                     <Route path="/home" element={<Home />} /> {/* Home route */}
                     <Route path="/" element={<Login />} /> {/* Default route */}
                     <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/profile" element={<Profile />} /> {/* Profile route */}
+                    <Route path="/safety-guidance" element={<SafetyGuidance />} /> {/* Safety Guidance route */}
                     <Route path="*" element={<Login />} /> {/* Fallback route */}
+                    <Route path="/Color-Matching" element={<ColorMatchingGame />}/>
+                    <Route path="emergency-contact" element={<EmergencyContact />} /> {/* Safety Guidance route */}
+                    <Route path="community-chat" element={<CommunityChat />} /> {/* Safety Guidance route */}
+
                 </Routes>
             </div>
         </Router>

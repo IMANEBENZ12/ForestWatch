@@ -1,0 +1,80 @@
+/* Safety Container */
+.safety-container {
+  width: 800px;
+  height: 500px;
+  margin: 100px auto;
+  padding: 40px;
+  background-color: #6a8f76;
+  border-radius: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  background-image: url('https://media.istockphoto.com/id/1452588698/photo/beautiful-forest-scenery-with-pine-trees-and-green-moss.jpg?s=612x612&w=0&k=20&c=-h0LtjXCxAPzu_OS4xJ7c8jJ31JTk_a-9-Gs95qKW88= ');
+  
+}
+
+
+
+.safety-header-container h1 {
+  font-size: 2rem;
+  color: white;
+  margin-bottom: 10px;
+  position:center;
+  padding-top: 20px;
+}
+
+
+
+/* Guidelines Container */
+.safety-guidelines-container {
+  display: flex;
+  justify-content: center; /* Center the inner container horizontally */
+  width: 90%;
+  border-radius: 15px;
+}
+
+.safety-inner-container {
+  background-color: #B0E57C;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 80%;
+  max-width: 1000px;
+  text-align: left; /* Align text to the left inside the container */
+  padding-right: 30px;
+  border-color: green;
+  height: 380px;
+  
+}
+
+.safety-list {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.safety-list li {
+  font-size: 1.1rem;
+  color: #34495e;
+  margin-bottom: 15px;
+  position: relative;
+  padding-left: 30px;
+}
+
+.safety-list li::before {
+  content: '\2022'; /* Bullet point */
+  font-size: 1.5rem;
+  color: #27ae60; /* Green bullet point color */
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+@media (max-width: 768px) {
+  .safety-intro {
+    font-size: 1rem;
+    padding: 0 20px;
+  }
+
+  .safety-list li {
+    font-size: 1rem;
+  }
+}

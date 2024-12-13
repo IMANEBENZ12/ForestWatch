@@ -19,7 +19,7 @@ const Login = () => {
             // Firebase login
             await signInWithEmailAndPassword(auth, email, password);
             alert('Login successful!');
-            navigate('/home'); // Redirect to home page upon successful login
+            navigate('/dashboard'); // Redirect to dashboard after successful login
         } catch (error) {
             // Handle login errors
             if (error.code === 'auth/wrong-password') {

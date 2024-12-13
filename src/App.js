@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom'; // Import Link
 import Login from './Login';
 import Signup from './Signup';
-import Home from './Home'; 
 import Dashboard from './pages/Dashboard'; 
 import Profile from './pages/Profile';
 import SafetyGuidance from './pages/Safety';  

@@ -1,0 +1,85 @@
+/* Safety Container */
+.emergency-container {
+  width: 800px;
+  height: 500px;
+  margin: 100px auto;
+  padding: 40px;
+  background-color: #6a8f76;
+  border-radius: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  background-image: url('https://s.abcnews.com/images/US/california-fires-01-rt-jef-201004_1601827276845_hpMain_2_16x9_992.jpg');
+  
+}
+
+
+
+.emergency-header-container h1 {
+  font-size: 2rem;
+  color: white;
+  margin-bottom: 10px;
+  position:center;
+  padding-top: 20px;
+  padding-bottom: 30px;
+
+}
+
+
+
+/* Guidelines Container */
+.emergency-guidelines-container {
+  display: flex;
+  justify-content: center; /* Center the inner container horizontally */
+  width: 90%;
+  border-radius: 15px;
+}
+
+.emergency-inner-container {
+  background-color: #e5bb7c;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 80%;
+  max-width: 1000px;
+  text-align: left; /* Align text to the left inside the container */
+  padding-right: 30px;
+  border-color: green;
+  height: 200px;
+  background-image: url('https://www.visitmorocco.com/sites/default/files/thumbnails/image/Tableau_num%C3%A9ros_utiles_ANG.png');
+  padding-right: 10px;
+  padding-left: 10px;
+  
+}
+
+.emergency-list {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.emergency-list li {
+  font-size: 1.1rem;
+  color: #34495e;
+  margin-bottom: 15px;
+  position: relative;
+  padding-left: 30px;
+}
+
+.emergency-list li::before {
+  content: '\2022'; /* Bullet point */
+  font-size: 1.5rem;
+  color: #1d5835; /* Green bullet point color */
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+@media (max-width: 768px) {
+  .emergency-intro {
+    font-size: 1rem;
+    padding: 0 20px;
+  }
+
+  .emergency-list li {
+    font-size: 1rem;
+  }
+}

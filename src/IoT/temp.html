@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHT11 Sensor Readings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #87CEEB; /* Light blue background */
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden; /* Hide overflow for sun image */
+        }
+
+        h1 {
+            text-align: center;
+            color: black; /* Black titles */
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.7); /* Light shadow for better contrast */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s; /* Fade-in animation */
+            position: relative; /* For positioning the sun */
+            z-index: 1; /* Keep container above background elements */
+        }
+
+        .sun {
+            position: absolute;
+            top: -100px; /* Position above the container */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px; /* Width of the sun */
+            height: 200px; /* Height of the sun */
+            background: url('https://upload.wikimedia.org/wikipedia/commons/e/e1/Sun_icon.png') no-repeat center center;
+            background-size: cover; /* Cover the area */
+            opacity: 0.5; /* Slightly transparent */
+            z-index: 0; /* Behind the container */
+        }
+
+        canvas {
+            max-width: 100%;
+            margin: auto;
+            border-radius: 8px;
+            height: 400px; /* Increased height for the chart */
+            transition: transform 0.3s; /* Transition for zoom effect */
+        }
+
+        canvas:hover {
+            transform: scale(1.05); /* Zoom effect on hover */
+        }
+
+        .values {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .value-box {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent boxes */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s; /* Transition for hover effect */
+        }
+
+        .value-box:hover {
+            background-color: rgba(255, 255, 255, 1); /* White background on hover */
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: black; /* Black text */
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.7); /* Light shadow for contrast */
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            font-size: 1.5em;
+            color: #4A90E2;
+            animation: pulse 1s infinite; /* Pulse animation */
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .timestamp {
+            text-align: center;
+            margin-top: 10px;
+            font-style: italic;
+            color: black; /* Black text */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="sun"></div> <!-- Sun background element -->
+    <div class="container">
+        <h1>Weather Station</h1>
+        <div class="loading" id="loading">Loading data...</div>
+        <div class="error" id="error"></div>
+
+        <div class="values">
+            <div class="value-box">
+                <h3>Current Temperature (°C)</h3>
+                <p id="currentTemperature">--</p>
+            </div>
+            <div class="value-box">
+                <h3>Current Humidity (%)</h3>
+                <p id="currentHumidity">--</p>
+            </div>
+            <div class="value-box">
+                <h3>Average Temperature (°C)</h3>
+                <p id="averageTemperature">--</p>
+            </div>
+            <div class="value-box">
+                <h3>Average Humidity (%)</h3>
+                <p id="averageHumidity">--</p>
+            </div>
+        </div>
+
+        <canvas id="sensorChart"></canvas>
+        <div class="timestamp" id="timestamp"></div>
+    </div>
+    <footer>
+        <p>&copy; 2024 DHT11 Sensor Dashboard</p>
+    </footer>
+
+    <script>
+        const ctx = document.getElementById('sensorChart').getContext('2d');
+        const labels = [];
+        const temperatureData = [];
+        const humidityData = [];
+        const loadingDiv = document.getElementById('loading');
+        const errorDiv = document.getElementById('error');
+        const currentTemperatureDiv = document.getElementById('currentTemperature');
+        const currentHumidityDiv = document.getElementById('currentHumidity');
+        const averageTemperatureDiv = document.getElementById('averageTemperature');
+        const averageHumidityDiv = document.getElementById('averageHumidity');
+        const timestampDiv = document.getElementById('timestamp');
+
+        // Initialize chart
+        const sensorChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Temperature (°C)',
+                        borderColor: 'red',
+                        borderWidth: 2,
+                        fill: false,
+                        data: temperatureData,
+                        pointRadius: 3,
+                    },
+                    {
+                        label: 'Humidity (%)',
+                        borderColor: 'blue',
+                        borderWidth: 2,
+                        fill: false,
+                        data: humidityData,
+                        pointRadius: 3,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom',
+                        title: {
+                            display: true,
+                            text: 'Time (s)'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Value'
+                        },
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    }
+                }
+            }
+        });
+
+        let timeElapsed = 0;
+
+        // Function to calculate averages
+        function calculateAverage() {
+            const avgTemp = (temperatureData.reduce((a, b) => a + b, 0) / temperatureData.length) || 0;
+            const avgHum = (humidityData.reduce((a, b) => a + b, 0) / humidityData.length) || 0;
+
+            averageTemperatureDiv.innerText = avgTemp.toFixed(2);
+            averageHumidityDiv.innerText = avgHum.toFixed(2);
+        }
+
+        // Function to fetch data from the server
+        function fetchData() {
+            loadingDiv.style.display = 'block';
+            errorDiv.innerText = '';  // Clear previous errors
+
+            fetch('/cgi-bin/dht11.py') // Adjust path as necessary
+                .then(response => {
+                    loadingDiv.style.display = 'none'; // Hide loading text
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        errorDiv.innerText = data.error;
+                        return;
+                    }
+
+                    // Update data arrays and time
+                    temperatureData.push(data.temperature);
+                    humidityData.push(data.humidity);
+                    timeElapsed += 5; // Increase the time by 5 seconds
+                    labels.push(timeElapsed);
+
+                    // Update current values
+                    currentTemperatureDiv.innerText = data.temperature.toFixed(2);
+                    currentHumidityDiv.innerText = data.humidity.toFixed(2);
+
+                    // Calculate averages
+                    calculateAverage();
+
+                    // Update the timestamp
+                    const now = new Date();
+                    timestampDiv.innerText = `Last updated: ${now.toLocaleString()}`;
+
+                    // Update the chart
+                    sensorChart.update();
+                })
+                .catch(error => {
+                    loadingDiv.style.display = 'none'; // Hide loading text on error
+                    errorDiv.innerText = 'Error fetching data: ' + error.message;
+                });
+        }
+
+        // Fetch data every 5 seconds
+        setInterval(fetchData, 5000);
+        fetchData(); // Initial fetch
+    </script>
+</body>
+</html>

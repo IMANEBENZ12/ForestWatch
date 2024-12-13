@@ -1,0 +1,28 @@
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 10px;
+  width: 90%;
+}
+
+.search-input {
+  width: 550px;
+  height: px;
+  padding: 10px;
+  border-radius: 25px; 
+  border: 2px solid rgb(15, 90, 15);
+  font-size: 16px;
+  outline: none;
+  padding-right: 50px; /* Space for the search icon */
+}
+
+/* Styling the search icon */
+.search-icon {
+  position: absolute;
+  right: 10px;
+  color: green;
+  font-size: 20px;
+  cursor: pointer;
+}

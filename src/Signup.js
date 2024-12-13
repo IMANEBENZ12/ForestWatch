@@ -25,14 +25,14 @@ const Signup = () => {
         try {
             // Call Firebase Authentication
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
+            
             // Firebase returns the created user
             const user = userCredential.user;
             console.log('User created:', user);
 
             // Redirect to home page after successful signup
             alert('Signed up successfully!');
-            navigate('/home');
+            navigate('/dashboard'); // Redirect to dashboard after successful login
         } catch (error) {
             // Handle errors and show them to the user
             setError(error.message);
